@@ -2,7 +2,6 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
 	apiKey: 'AIzaSyCjdurPaipL0EG7Dh-14T_epIvCyrDu9lc',
 	authDomain: 'react-chat-2cc6e.firebaseapp.com',
@@ -14,11 +13,10 @@ const firebaseConfig = {
 	appId: '1:513738534546:web:144d7bf5fdbc5a8236c04b',
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-const db = getFirestore(app);
-
 const auth = getAuth(app);
+
+const db = getFirestore(app);
 
 export { db, auth };
