@@ -5,11 +5,11 @@ import SignOut from './SignOut';
 
 const Chat = () => {
 	const [messages, setMessages] = useState();
+
 	useEffect(() => {
-		const messagesCollection = collection(db, 'messages');
-		const fetched = doc(messagesCollection);
-		console.log(messagesCollection);
-	});
+		const messages = collection(db, 'messages');
+		console.log(messages);
+	}, []);
 
 	return (
 		<div>
