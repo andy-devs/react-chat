@@ -3,7 +3,8 @@ import {
 	signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { auth } from '../firebase';
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
+import OrbitLoader from './OrbitLoader';
 import classes from './SignUpForm.module.css';
 
 interface Props {
@@ -11,9 +12,9 @@ interface Props {
 	changeSignUp: () => void;
 }
 
-const SignIn = (props: Props) => {
-	const emailRef = useRef(null);
-	const passwordRef = useRef(null);
+const SignUpForm = (props: Props) => {
+	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState(false);
 
 	const [email, setEmail] = useState('');
 	const [isEmailValid, setIsEmailValid] = useState(true);
@@ -23,14 +24,6 @@ const SignIn = (props: Props) => {
 	const [isPasswordValid, setIsPasswordValid] = useState(true);
 	const [passwordError, setPasswordError] = useState('');
 	const [isPasswordTouched, setIsPasswordTouched] = useState(false);
-
-	const emailChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setEmail(e.target.value);
-	};
-
-	const passwordChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setPassword(e.target.value);
-	};
 
 	const checkEmailValidity = () => {
 		if (email === '') {
@@ -61,6 +54,14 @@ const SignIn = (props: Props) => {
 		}
 	};
 
+	const emailChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setEmail(e.target.value);
+	};
+
+	const passwordChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setPassword(e.target.value);
+	};
+
 	const emailBlurHandler = () => {
 		setIsEmailTouched(true);
 		checkEmailValidity();
@@ -69,6 +70,28 @@ const SignIn = (props: Props) => {
 	const passwordBlurHandler = () => {
 		setIsPasswordTouched(true);
 		checkPasswordValidity();
+	};
+
+	const signUpHandler = async () => {
+		try {
+			setIsLoading(true);
+			const res = await createUserWithEmailAndPassword(auth, email, password);
+		} catch (err) {
+			setError(true);
+			setIsLoading(false);
+			alert(err);
+		}
+	};
+
+	const loginHandler = async () => {
+		try {
+			setIsLoading(true);
+			const res = await signInWithEmailAndPassword(auth, email, password);
+		} catch (err) {
+			setError(true);
+			setIsLoading(false);
+			alert(err);
+		}
 	};
 
 	const signInHandler = (e: React.FormEvent<HTMLFormElement>) => {
@@ -82,9 +105,9 @@ const SignIn = (props: Props) => {
 			return;
 		}
 		if (props.type) {
-			createUserWithEmailAndPassword(auth, email, password);
+			signUpHandler();
 		} else if (!props.type) {
-			signInWithEmailAndPassword(auth, email, password);
+			loginHandler();
 		}
 	};
 
@@ -106,66 +129,67 @@ const SignIn = (props: Props) => {
 
 	return (
 		<div className={classes['form__wrapper']}>
-			<form
-				className={classes.form}
-				action='/'
-				method='post'
-				onSubmit={signInHandler}>
-				<h1 className={classes['form__title']}>React Chat 🚀</h1>
-				<input
-					ref={emailRef}
-					className={emailClasses}
-					type='email'
-					placeholder='Your Email'
-					id='email'
-					name='email'
-					value={email}
-					onChange={emailChangeHandler}
-					onBlur={emailBlurHandler}
-				/>
-				<p
-					className={
-						isEmailValid
-							? classes['form__input-error']
-							: classes['form__input-error'] +
-							  ' ' +
-							  classes['form__input-error--active']
-					}>
-					{emailError}
-				</p>
-				<input
-					ref={passwordRef}
-					className={passwordClasses}
-					type='password'
-					placeholder='Your Password'
-					id='password'
-					name='password'
-					value={password}
-					onChange={passwordChangeHandler}
-					onBlur={passwordBlurHandler}
-				/>
-				<p
-					className={
-						isPasswordValid
-							? classes['form__input-error']
-							: classes['form__input-error'] +
-							  ' ' +
-							  classes['form__input-error--active']
-					}>
-					{passwordError}
-				</p>
-				<button className={classes['form__button-submit']} type='submit'>
-					{props.type ? 'Sign Up' : 'Log In'}
-				</button>
-				<button
-					className={classes['form__button-link']}
-					type='button'
-					onClick={props.changeSignUp}>
-					{!props.type ? 'Sign Up' : 'Log In'}
-				</button>
-			</form>
+			{isLoading && <OrbitLoader />}
+			{!isLoading && (
+				<form
+					className={classes.form}
+					action='/'
+					method='post'
+					onSubmit={signInHandler}>
+					<h1 className={classes['form__title']}>React Chat 🚀</h1>
+					<input
+						className={emailClasses}
+						type='email'
+						placeholder='Your Email'
+						id='email'
+						name='email'
+						value={email}
+						onChange={emailChangeHandler}
+						onBlur={emailBlurHandler}
+					/>
+					<p
+						className={
+							isEmailValid
+								? classes['form__input-error']
+								: classes['form__input-error'] +
+								  ' ' +
+								  classes['form__input-error--active']
+						}>
+						{emailError}
+					</p>
+					<input
+						className={passwordClasses}
+						type='password'
+						placeholder='Your Password'
+						id='password'
+						name='password'
+						value={password}
+						onChange={passwordChangeHandler}
+						onBlur={passwordBlurHandler}
+					/>
+					<p
+						className={
+							isPasswordValid
+								? classes['form__input-error']
+								: classes['form__input-error'] +
+								  ' ' +
+								  classes['form__input-error--active']
+						}>
+						{passwordError}
+					</p>
+					<button className={classes['form__button-submit']} type='submit'>
+						{props.type ? 'Sign Up' : 'Log In'}
+					</button>
+					<button
+						className={classes['form__button-link']}
+						type='button'
+						onClick={props.changeSignUp}>
+						{!props.type ? 'Sign Up' : 'Log In'}
+					</button>
+				</form>
+			)}
 		</div>
 	);
 };
 
-export default SignIn;
+export default SignUpForm;
