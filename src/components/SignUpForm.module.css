@@ -33,7 +33,7 @@
 	padding: 1rem 0.9rem;
 	border-radius: 0.7rem;
 	margin-bottom: 1rem;
-	transition: outline 0.4s linear;
+	transition: outline 0.4s ease-out;
 }
 .form__input--invalid {
 	outline: 1px solid #cf1d1d;
@@ -43,7 +43,7 @@
 	color: #cf1d1d;
 	margin-bottom: 0rem;
 	opacity: 0;
-	transition: opacity 0.4s linear, margin 0.4s linear;
+	transition: opacity 0.4s ease-out, margin 0.4s ease-out;
 }
 .form__input-error--active {
 	opacity: 1;
