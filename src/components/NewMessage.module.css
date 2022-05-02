@@ -1,0 +1,36 @@
+.form {
+	width: 100%;
+	display: flex;
+	align-items: stretch;
+}
+.form__input {
+	width: 85%;
+	outline: none;
+	font-size: 1.1rem;
+	border: 1px solid white;
+	color: white;
+	padding: 0.8rem 1rem;
+	border-top-left-radius: 2rem;
+	border-bottom-left-radius: 2rem;
+	background-color: transparent;
+}
+.form__input::placeholder {
+	color: rgba(255, 255, 255, 0.815);
+}
+.form__btn {
+	min-width: 5rem;
+	width: 15%;
+	font-size: 1.2rem;
+	padding: 0.8rem 1rem;
+	border: none;
+	border-top-right-radius: 2rem;
+	border-bottom-right-radius: 2rem;
+	cursor: pointer;
+	border: 1px solid transparent;
+	transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+.form__btn:hover {
+	border: 1px solid white;
+	color: white;
+	background-color: transparent;
+}

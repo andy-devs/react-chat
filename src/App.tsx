@@ -16,7 +16,7 @@ function App() {
 			{user ? (
 				<Chat />
 			) : (
-				<SignUpForm type={isSignUp} changeSignUp={changeSignUpHandler} />
+				<SignUpForm isSignUp={isSignUp} changeSignUp={changeSignUpHandler} />
 			)}
 		</>
 	);

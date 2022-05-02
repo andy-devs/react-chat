@@ -1,6 +1,8 @@
 import {
 	createUserWithEmailAndPassword,
+	sendEmailVerification,
 	signInWithEmailAndPassword,
+	updateProfile,
 } from 'firebase/auth';
 import { auth } from '../firebase';
 import React, { useState } from 'react';
@@ -8,13 +10,18 @@ import OrbitLoader from './OrbitLoader';
 import classes from './SignUpForm.module.css';
 
 interface Props {
-	type: boolean;
+	isSignUp: boolean;
 	changeSignUp: () => void;
 }
 
 const SignUpForm = (props: Props) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(false);
+
+	const [nickname, setNickname] = useState('');
+	const [isNicknameValid, setIsNicknameValid] = useState(true);
+	const [nicknameError, setNicknameError] = useState('');
+	const [isNicknameTouched, setIsNicknameTouched] = useState(false);
 
 	const [email, setEmail] = useState('');
 	const [isEmailValid, setIsEmailValid] = useState(true);
@@ -24,6 +31,16 @@ const SignUpForm = (props: Props) => {
 	const [isPasswordValid, setIsPasswordValid] = useState(true);
 	const [passwordError, setPasswordError] = useState('');
 	const [isPasswordTouched, setIsPasswordTouched] = useState(false);
+
+	const checkNicknameValidity = () => {
+		if (nickname === '') {
+			setIsNicknameValid(false);
+			setNicknameError('Nickname required');
+		} else {
+			setIsNicknameValid(true);
+			setNicknameError('');
+		}
+	};
 
 	const checkEmailValidity = () => {
 		if (email === '') {
@@ -54,12 +71,21 @@ const SignUpForm = (props: Props) => {
 		}
 	};
 
+	const nicknameChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setNickname(e.target.value);
+	};
+
 	const emailChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setEmail(e.target.value);
 	};
 
 	const passwordChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setPassword(e.target.value);
+	};
+
+	const nicknameBlurHandler = () => {
+		setIsNicknameTouched(true);
+		checkNicknameValidity();
 	};
 
 	const emailBlurHandler = () => {
@@ -75,7 +101,9 @@ const SignUpForm = (props: Props) => {
 	const signUpHandler = async () => {
 		try {
 			setIsLoading(true);
-			const res = await createUserWithEmailAndPassword(auth, email, password);
+			await createUserWithEmailAndPassword(auth, email, password);
+			await sendEmailVerification(auth.currentUser);
+			await updateProfile(auth.currentUser, { displayName: nickname });
 		} catch (err) {
 			setError(true);
 			setIsLoading(false);
@@ -94,26 +122,40 @@ const SignUpForm = (props: Props) => {
 		}
 	};
 
-	const signInHandler = (e: React.FormEvent<HTMLFormElement>) => {
+	const formSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+
 		setIsEmailTouched(true);
 		setIsPasswordTouched(true);
+		setIsNicknameTouched(true);
 		checkEmailValidity();
 		checkPasswordValidity();
+		checkNicknameValidity();
+
+		if (props.isSignUp && !isNicknameValid) {
+			return;
+		}
 
 		if (!isEmailValid || !isPasswordValid) {
 			return;
 		}
-		if (props.type) {
+		if (props.isSignUp) {
 			signUpHandler();
-		} else if (!props.type) {
+		} else if (!props.isSignUp) {
 			loginHandler();
 		}
 	};
 
+	let nicknameClasses;
 	let emailClasses;
 	let passwordClasses;
 
+	if (isNicknameValid || !isNicknameTouched) {
+		nicknameClasses = classes['form__input'];
+	} else {
+		nicknameClasses =
+			classes['form__input'] + ' ' + classes['form__input--invalid'];
+	}
 	if (isEmailValid || !isEmailTouched) {
 		emailClasses = classes['form__input'];
 	} else {
@@ -135,8 +177,32 @@ const SignUpForm = (props: Props) => {
 					className={classes.form}
 					action='/'
 					method='post'
-					onSubmit={signInHandler}>
+					onSubmit={formSubmitHandler}>
 					<h1 className={classes['form__title']}>React Chat 🚀</h1>
+					{props.isSignUp && (
+						<input
+							className={nicknameClasses}
+							type='text'
+							placeholder='Your nickname'
+							id='nickname'
+							name='nickname'
+							value={nickname}
+							onChange={nicknameChangeHandler}
+							onBlur={nicknameBlurHandler}
+						/>
+					)}
+					{props.isSignUp && (
+						<p
+							className={
+								isNicknameValid
+									? classes['form__input-error']
+									: classes['form__input-error'] +
+									  ' ' +
+									  classes['form__input-error--active']
+							}>
+							{nicknameError}
+						</p>
+					)}
 					<input
 						className={emailClasses}
 						type='email'
@@ -178,13 +244,13 @@ const SignUpForm = (props: Props) => {
 						{passwordError}
 					</p>
 					<button className={classes['form__button-submit']} type='submit'>
-						{props.type ? 'Sign Up' : 'Log In'}
+						{props.isSignUp ? 'Sign Up' : 'Log In'}
 					</button>
 					<button
 						className={classes['form__button-link']}
 						type='button'
 						onClick={props.changeSignUp}>
-						{!props.type ? 'Sign Up' : 'Log In'}
+						{!props.isSignUp ? 'Sign Up' : 'Log In'}
 					</button>
 				</form>
 			)}

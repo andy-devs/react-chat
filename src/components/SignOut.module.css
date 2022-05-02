@@ -1,0 +1,14 @@
+.signOut {
+	border: 1px solid white;
+	border-radius: 2rem;
+	color: white;
+	padding: 0.7rem 1rem;
+	background-color: transparent;
+	align-self: flex-end;
+	transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+	cursor: pointer;
+}
+.signOut:hover {
+	color: black;
+	background-color: white;
+}

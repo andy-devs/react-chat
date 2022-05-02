@@ -1,15 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import moment from 'moment';
+import { v4 as uuidv4 } from 'uuid';
+import { auth } from '../firebase';
 import { db } from '../firebase';
 import {
+	doc,
 	collection,
-	getDocs,
 	query,
 	orderBy,
 	limit,
 	onSnapshot,
+	setDoc,
+	addDoc,
 } from 'firebase/firestore';
 import SignOut from './SignOut';
 import classes from './Chat.module.css';
+import Messages from './Messages';
+import NewMessage from './NewMessage';
 
 const Chat = () => {
 	const [messages, setMessages] = useState<any[]>([]);
@@ -22,19 +29,30 @@ const Chat = () => {
 		});
 	};
 
-	fetchMessages();
+	const addMessageHandler = async (text: string) => {
+		const messagesRef = collection(db, 'messages');
+		await addDoc(messagesRef, {
+			id: uuidv4(),
+			text: text,
+			user: auth.currentUser.displayName,
+			createdAt: moment().format('YYYY-MM-DTh:mm:ss a'),
+		});
+	};
+
+	useEffect(() => {
+		fetchMessages();
+	}, []);
 
 	return (
-		<main className={classes.chat}>
-			<h1>Chat</h1>
-			<ul>
-				{messages.map((message: any) => (
-					<li>
-						{message.author} - {message.text}
-					</li>
-				))}
-			</ul>
-			<SignOut />
+		<main className={classes.main}>
+			<div className={classes['main__content-wrapper']}>
+				<div className={classes.main__content}>
+					<SignOut />
+					<Messages messages={messages} />
+				</div>
+
+				<NewMessage addMessage={addMessageHandler} />
+			</div>
 		</main>
 	);
 };
