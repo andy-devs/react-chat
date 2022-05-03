@@ -16,7 +16,7 @@ const NewMessage = ({ addMessage }) => {
 	};
 
 	return (
-		<form className={classes.form} onSubmit={submitHandler}>
+		<form autoComplete='off' className={classes.form} onSubmit={submitHandler}>
 			<input
 				className={classes.form__input}
 				type='text'

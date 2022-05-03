@@ -174,6 +174,7 @@ const SignUpForm = (props: Props) => {
 			{isLoading && <OrbitLoader />}
 			{!isLoading && (
 				<form
+					autoComplete='off'
 					className={classes.form}
 					action='/'
 					method='post'
