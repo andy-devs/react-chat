@@ -103,7 +103,7 @@ const SignUpForm = (props: Props) => {
 			setIsLoading(true);
 			await createUserWithEmailAndPassword(auth, email, password);
 			await sendEmailVerification(auth.currentUser);
-			await updateProfile(auth.currentUser, { displayName: nickname });
+			await updateProfile(auth.currentUser, { displayName: nickname.trim() });
 		} catch (err) {
 			setError(true);
 			setIsLoading(false);
@@ -114,7 +114,7 @@ const SignUpForm = (props: Props) => {
 	const loginHandler = async () => {
 		try {
 			setIsLoading(true);
-			const res = await signInWithEmailAndPassword(auth, email, password);
+			await signInWithEmailAndPassword(auth, email, password);
 		} catch (err) {
 			setError(true);
 			setIsLoading(false);

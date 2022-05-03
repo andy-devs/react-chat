@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import classes from './NewMessage.module.css';
+import { auth } from '../firebase';
 
 const NewMessage = ({ addMessage }) => {
 	const [text, setText] = useState('');
@@ -10,6 +11,10 @@ const NewMessage = ({ addMessage }) => {
 
 	const submitHandler = async (e: any) => {
 		e.preventDefault();
+		if (!auth.currentUser.emailVerified) {
+			alert('Please verify you email!');
+			return;
+		}
 		addMessage(text);
 		window.scrollTo(0, document.body.scrollHeight);
 		setText('');
