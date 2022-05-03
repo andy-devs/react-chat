@@ -1,22 +1,23 @@
 .main {
 	color: #ffffff;
-	background: linear-gradient(20deg, #691fff 0%, #231fff 100%);
+	background: #080727;
+	/* background: linear-gradient(0deg, #7335f9 0%, #07056e 100%); */
 	height: 100vh;
 }
 .main__content-wrapper {
 	padding: 1rem;
-	max-width: 35rem;
+	max-width: 30rem;
 	margin: 0 auto;
 	flex-direction: column;
 	display: flex;
 	justify-content: space-between;
-	gap: 2rem;
+	gap: 1rem;
 	height: 100%;
 }
 .main__content {
 	flex-direction: column;
 	display: flex;
 	justify-content: flex-start;
-	gap: 3rem;
+	gap: 1rem;
 	height: 100%;
 }

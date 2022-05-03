@@ -2,6 +2,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
+	max-width: 50%;
 }
 .message__current {
 	align-self: flex-end;
@@ -12,7 +13,7 @@
 }
 
 .message__text {
-	padding: 0.3rem 0.7rem;
+	padding: 0.3rem 0.8rem;
 	border-radius: 1.2rem;
 	color: black;
 	background-color: white;
@@ -22,6 +23,7 @@
 .message__user {
 	font-size: 0.88rem;
 	padding-left: 0.2rem;
+	opacity: 0.8;
 }
 .message__data {
 	font-size: 0.6rem;

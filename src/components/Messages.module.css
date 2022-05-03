@@ -2,11 +2,39 @@
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
-	height: calc(100vh - 15rem);
+	height: calc(100vh - 10rem);
 	overflow: auto;
-	-ms-overflow-style: none; /* Internet Explorer 10+ */
-	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+	position: relative;
+	padding: 2rem 0rem;
+}
+.messages__top {
+	min-height: 10%;
+	width: 100%;
+	background: linear-gradient(
+		to bottom,
+		rgb(8, 7, 39) 0%,
+		rgba(8, 7, 39, 0) 100%
+	);
+	z-index: 2;
+	position: fixed;
+	top: 4rem;
+	left: 0;
+}
+.messages__bottom {
+	min-height: 10%;
+	width: 100%;
+	background: linear-gradient(
+		to bottom,
+		rgba(8, 7, 39, 0) 0%,
+		rgb(8, 7, 39) 100%
+	);
+	z-index: 2;
+	position: fixed;
+	bottom: 5rem;
+	left: 0;
 }
 .messages::-webkit-scrollbar {
-	display: none; /* Safari and Chrome */
+	display: none;
 }
