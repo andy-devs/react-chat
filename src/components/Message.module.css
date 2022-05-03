@@ -11,6 +11,9 @@
 .message__current .message__text {
 	align-self: flex-end;
 }
+.message__current .message__user {
+	margin-left: -0.2rem;
+}
 
 .message__text {
 	padding: 0.3rem 0.8rem;

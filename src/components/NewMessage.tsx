@@ -11,6 +11,7 @@ const NewMessage = ({ addMessage }) => {
 	const submitHandler = async (e: any) => {
 		e.preventDefault();
 		addMessage(text);
+		window.scrollTo(0, document.body.scrollHeight);
 		setText('');
 	};
 
