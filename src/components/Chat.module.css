@@ -2,6 +2,7 @@
 	color: #ffffff;
 	background: #5e24dd;
 	/* background: linear-gradient(20deg, #7335f9 0%, #07056e 100%); */
+	min-height: 100vh;
 	height: 100%;
 }
 .main__content-wrapper {

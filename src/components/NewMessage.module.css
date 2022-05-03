@@ -1,7 +1,8 @@
 .form {
 	position: fixed;
 	bottom: 1rem;
-	width: 30rem;
+	width: 28rem;
+	margin: 0 auto;
 	display: flex;
 	align-items: stretch;
 }
@@ -35,4 +36,10 @@
 	border: 1px solid white;
 	color: white;
 	background-color: #5e24dd;
+}
+
+@media screen and (max-width: 500px) {
+	.form {
+		width: 93%;
+	}
 }
