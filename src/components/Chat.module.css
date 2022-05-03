@@ -1,7 +1,7 @@
 .main {
 	color: #ffffff;
-	background: #080727;
-	/* background: linear-gradient(0deg, #7335f9 0%, #07056e 100%); */
+	/* background: #080727; */
+	background: linear-gradient(20deg, #7335f9 0%, #07056e 100%);
 	height: 100vh;
 }
 .main__content-wrapper {
