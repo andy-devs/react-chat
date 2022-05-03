@@ -1,5 +1,7 @@
 .form {
-	width: 100%;
+	position: fixed;
+	bottom: 1rem;
+	width: 30rem;
 	display: flex;
 	align-items: stretch;
 }
@@ -12,7 +14,7 @@
 	padding: 0.8rem 1rem;
 	border-top-left-radius: 2rem;
 	border-bottom-left-radius: 2rem;
-	background-color: transparent;
+	background-color: #5e24dd;
 }
 .form__input::placeholder {
 	color: rgba(255, 255, 255, 0.815);
@@ -32,5 +34,5 @@
 .form__btn:hover {
 	border: 1px solid white;
 	color: white;
-	background-color: transparent;
+	background-color: #5e24dd;
 }

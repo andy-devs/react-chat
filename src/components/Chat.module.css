@@ -1,8 +1,8 @@
 .main {
 	color: #ffffff;
-	/* background: #080727; */
-	background: linear-gradient(20deg, #7335f9 0%, #07056e 100%);
-	height: 100vh;
+	background: #5e24dd;
+	/* background: linear-gradient(20deg, #7335f9 0%, #07056e 100%); */
+	height: 100%;
 }
 .main__content-wrapper {
 	padding: 1rem;
